@@ -148,23 +148,30 @@
         if (isWaiting) return;
 
         let tiltValue = 0;
+        
+        // ตรวจสอบว่าหน้าจอเป็นแนวนอน (Landscape) หรือแนวตั้ง (Portrait)
         const isLandscape = window.innerWidth > window.innerHeight;
 
-        // แยกแกนตามการถือ
         if (isLandscape) {
-            tiltValue = event.gamma; // แนวนอนใช้ Gamma
+            // ในแนวนอน ค่าการเอียงหน้า-หลังจะอยู่ที่แกน Gamma
+            tiltValue = event.gamma; 
         } else {
-            tiltValue = event.beta;  // แนวตั้งใช้ Beta
+            // ในแนวตั้ง ค่าการเอียงหน้า-หลังจะอยู่ที่แกน Beta
+            tiltValue = event.beta;
         }
 
-        // โลจิก Correct/Skip
-        if (tiltValue > 55) { // เอียงลง
-            processAction('correct');
-        } else if (tiltValue < -55) { // เอียงขึ้น
-            processAction('skip');
+        // โลจิกการเอียง (ปรับให้เข้ากับสรีระการถือ iPad)
+        // คว่ำหน้าจอลง (Correct)
+        if (isLandscape) {
+             // แนวนอน: ถ้าเอียงไปข้างหน้า (หันจอลงพื้น) Gamma จะมีค่าเป็นบวก (สำหรับ iPad ส่วนใหญ่)
+             if (tiltValue > 50) processAction('correct');
+             else if (tiltValue < -50) processAction('skip');
+        } else {
+             // แนวตั้ง: Beta จะทำงาน
+             if (tiltValue > 60) processAction('correct');
+             else if (tiltValue < -40) processAction('skip');
         }
     }
-
     function processAction(type) {
         isWaiting = true;
         if (type === 'correct') {
@@ -200,3 +207,4 @@
 </script>
 </body>
 </html>
+
