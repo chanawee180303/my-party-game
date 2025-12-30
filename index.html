@@ -3,58 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Party Game Hub</title>
+    <title>Party Game Pro - Motion Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #6c5ce7; --secondary: #00b894; --bg: #dfe6e9; }
-        body { font-family: 'Prompt', sans-serif; background-color: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; color: #2d3436; overflow: hidden; }
-        .container { width: 90%; max-width: 500px; background: white; padding: 30px; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; min-height: 400px; display: flex; flex-direction: column; justify-content: center; }
-        .screen { display: none; }
-        .active { display: block; }
-        h1 { font-size: 2.2rem; color: var(--primary); }
-        .menu-btn { background: var(--primary); color: white; border: none; padding: 20px; margin: 10px 0; width: 100%; font-size: 1.4rem; border-radius: 15px; cursor: pointer; }
-        .menu-btn.topic { background: var(--secondary); }
-        .display-box { font-size: 2.5rem; font-weight: bold; margin: 30px 0; min-height: 120px; display: flex; align-items: center; justify-content: center; color: #2d3436; }
-        .action-btn { background: var(--primary); color: white; border: none; padding: 15px 30px; font-size: 1.2rem; border-radius: 50px; width: 100%; cursor: pointer; }
-        .back-btn { background: none; border: 1px solid #b2bec3; color: #636e72; margin-top: 20px; padding: 8px 15px; border-radius: 50px; cursor: pointer; }
+        :root { --primary: #ff7f50; --secondary: #2ed573; --dark: #2f3542; --light: #ffffff; --blue: #54a0ff; --danger: #ff4757; }
+        body { font-family: 'Prompt', sans-serif; background: var(--dark); margin: 0; color: var(--light); overflow: hidden; transition: background 0.3s; }
+        .container { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .screen { display: none; width: 100%; text-align: center; }
+        .active { display: flex; flex-direction: column; align-items: center; }
+
+        /* ปุ่มหลัก */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 700px; }
+        .main-btn { background: var(--light); color: var(--dark); border: none; padding: 20px; border-radius: 15px; font-size: 1.2rem; font-weight: bold; box-shadow: 0 4px 0px #bdc3c7; cursor: pointer; }
+        .sub-btn { background: var(--blue); color: white; border: none; padding: 20px; border-radius: 15px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 0px #2e86de; cursor: pointer; }
+
+        /* หน้าเกม */
+        #timer { font-size: 4rem; font-weight: bold; color: var(--secondary); margin-bottom: 5px; }
+        #word-display { font-size: 7rem; font-weight: bold; margin: 20px 0; min-height: 250px; display: flex; align-items: center; justify-content: center; line-height: 1.1; width: 95%; }
+        #score-now { font-size: 1.5rem; background: rgba(0,0,0,0.3); padding: 5px 20px; border-radius: 20px; }
+
+        /* หน้าสรุปคะแนน */
+        .result-card { background: white; color: var(--dark); padding: 40px; border-radius: 30px; width: 80%; max-width: 400px; }
+        .score-big { font-size: 6rem; color: var(--primary); font-weight: bold; margin: 10px 0; }
+        
+        .action-btn { background: var(--secondary); color: white; border: none; padding: 20px 40px; border-radius: 50px; font-size: 1.5rem; font-weight: bold; width: 100%; cursor: pointer; }
+        .back-btn { background: none; border: 2px solid #747d8c; color: #747d8c; padding: 10px 30px; border-radius: 50px; font-size: 1rem; cursor: pointer; margin-top: 20px; }
+
+        /* สำหรับ Motion Feedback */
+        .correct-bg { background: #2ed573 !important; }
+        .skip-bg { background: #ff4757 !important; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="menu-screen" class="screen active">
-        <h1>เกมปาร์ตี้ 🎮</h1>
-        <button class="menu-btn" onclick="showScreen('word-game')">📢 ทายคำศัพท์</button>
-        <button class="menu-btn topic" onclick="showScreen('topic-game')">💬 สุ่มหัวข้อคุย</button>
+    <div id="main-menu" class="screen active">
+        <h1>เลือกหมวดหมู่ 🎮</h1>
+        <div class="grid">
+            <button class="main-btn" onclick="showSubMenu('food')">🍱 อาหาร</button>
+            <button class="main-btn" onclick="showSubMenu('general')">🎓 ความรู้ทั่วไป</button>
+            <button class="main-btn" onclick="showSubMenu('tv')">📺 รายการทีวี</button>
+            <button class="main-btn" onclick="showSubMenu('movie')">🎬 ภาพยนตร์</button>
+            <button class="main-btn" onclick="showSubMenu('music')">🎵 เพลง</button>
+            <button class="main-btn" onclick="showSubMenu('celeb')">🌟 คนดัง</button>
+            <button class="main-btn" onclick="showSubMenu('world')">🌎 รอบโลก</button>
+            <button class="main-btn" onclick="showSubMenu('cartoon')">🦄 การ์ตูน</button>
+            <button class="main-btn" onclick="showSubMenu('game')">🎮 เกมส์</button>
+            <button class="main-btn" onclick="showSubMenu('sport')">⚽ กีฬา</button>
+        </div>
     </div>
 
-    <div id="word-game" class="screen">
-        <h2>ทายคำศัพท์</h2>
-        <div class="display-box" id="word-display">กดเริ่ม...</div>
-        <button class="action-btn" onclick="nextItem(words, 'word-display')">สุ่มคำใหม่</button>
-        <button class="back-btn" onclick="showScreen('menu-screen')">กลับหน้าหลัก</button>
+    <div id="sub-menu" class="screen">
+        <h1 id="sub-menu-title">หมวดหมู่ย่อย</h1>
+        <div class="grid" id="sub-menu-container"></div>
+        <button class="back-btn" onclick="showScreen('main-menu')">🔙 กลับหน้าหลัก</button>
     </div>
 
-    <div id="topic-game" class="screen">
-        <h2>หัวข้อสนทนา</h2>
-        <div class="display-box" style="font-size: 1.5rem;" id="topic-display">กดเริ่ม...</div>
-        <button class="action-btn" style="background: var(--secondary);" onclick="nextItem(topics, 'topic-display')">สุ่มหัวข้อใหม่</button>
-        <button class="back-btn" onclick="showScreen('menu-screen')">กลับหน้าหลัก</button>
+    <div id="permission-screen" class="screen">
+        <h1>พร้อมเล่นหรือยัง? 📱</h1>
+        <p>ถือ iPad ให้ขนานกับหน้าผาก แล้วหันจอไปทางเพื่อน</p>
+        <p style="font-size: 0.9rem; color: #ced4da;">(ต้องกดอนุญาตเพื่อใช้การเอียงหน้าจอเปลี่ยนคำ)</p>
+        <button class="action-btn" onclick="requestPermission()">เริ่มเล่นเลย!</button>
+        <button class="back-btn" onclick="showScreen('main-menu')">ยกเลิก</button>
+    </div>
+
+    <div id="game-screen" class="screen">
+        <div id="score-now">คะแนน: 0</div>
+        <div id="timer">120</div>
+        <div id="word-display">เตรียมตัว!</div>
+        <p>คว่ำจอลง = ถูก | หงายจอขึ้น = ข้าม</p>
+        <button class="back-btn" onclick="exitGame()">🔙 จบเกมก่อนเวลา</button>
+    </div>
+
+    <div id="summary-screen" class="screen">
+        <div class="result-card">
+            <h2>สรุปคะแนน 🎉</h2>
+            <div class="score-big" id="final-score">0</div>
+            <p>ตอบถูกทั้งหมด</p>
+            <button class="action-btn" onclick="showScreen('main-menu')">เล่นใหม่อีกครั้ง</button>
+        </div>
     </div>
 </div>
 
 <script>
-    const words = ["รถไฟฟ้า", "พริกแกง", "ไดโนเสาร์", "สไปเดอร์แมน", "หมูกระทะ", "น้ำตก", "ลิซ่า", "TikTok", "ทุเรียน", "ยาสีฟัน"];
-    const topics = ["ถ้าถูกหวย 100 ล้านจะซื้ออะไร?", "ความทรงจำตอนเด็กที่ขำที่สุด?", "อยากไปเที่ยวประเทศไหนมากที่สุด?", "ของกินที่เกลียดที่สุด?", "ถ้าสลับร่างกับเพื่อนได้ 1 วันจะเลือกใคร?"];
+    // --- DATABASE (เหมือนเดิม แต่คุณเพิ่มคำได้ตามใจชอบ) ---
+    const database = {
+        food: { title: "🍱 อาหาร", subs: { "อาหารไทย": ["ผัดไทย", "ต้มยำกุ้ง", "แกงเขียวหวาน"], "อาหารอีสาน": ["ส้มตำ", "ซุปหน่อไม้", "ลาบหมู"], "ผักผลไม้": ["ทุเรียน", "มังคุด", "ผักบุ้ง"] } },
+        general: { title: "🎓 ความรู้ทั่วไป", subs: { "จังหวัด": ["เชียงใหม่", "ภูเก็ต", "ขอนแก่น"], "ชื่อสัตว์ แมลง": ["ตั๊กแตน", "แมลงปอ", "สิงโต"], "อาชีพ": ["วิศวกร", "พยาบาล", "นักบิน"], "สัตว์ในตำนาน": ["พญานาค", "พญาครุฑ"], "อวัยวะ": ["ตับ", "ไต", "ไส้ติ่ง"] } },
+        tv: { title: "📺 ทีวี", subs: { "Stranger Things": ["อีเลเว่น", "ดัสติน"], "นักมวยปล้ำ": ["จอห์น ซีน่า", "เดอะ ร็อก"] } },
+        movie: { title: "🎬 หนัง", subs: { "หนังต่างประเทศ": ["Avatar", "Titanic"], "Marvel": ["ไอรอนแมน", "ธานอส"], "หนังไทย": ["พี่มาก", "ฉลาดเกมส์โกง"] } },
+        music: { title: "🎵 เพลง", subs: { "ศิลปิน": ["Blackpink", "Bodyslam"], "เพลงไทย": ["วัดปะหล่ะ", "สองใจ"], "เพลงสากล": ["Stay", "Perfect"], "Kamikaze": ["โฟร์-มด", "หวาย"] } },
+        celeb: { title: "🌟 คนดัง", subs: { "ตัวละครหนัง": ["แจ็ค สแปร์โรว์", "โจ๊กเกอร์"], "ตัวละครการ์ตูน": ["โดราเอมอน", "ชินจัง"] } },
+        world: { title: "🌎 รอบโลก", subs: { "เมืองท่องเที่ยว": ["โตเกียว", "ปารีส"], "สถานที่เที่ยวไทย": ["เขาใหญ่", "เกาะพีพี"], "เมืองหลวง": ["ลอนดอน", "โซล"], "ประเทศ": ["ญี่ปุ่น", "บราซิล"], "ภาษาอีสาน": ["เบิ่ง", "แซ่บนัว"] } },
+        cartoon: { title: "🦄 การ์ตูน", subs: { "Marvel": ["Spider-Man"], "DC": ["Batman"], "Attack on Titans": ["เอเรน"], "Naruto": ["นารูโตะ"], "Demons Slayer": ["ทันจิโร่"], "Ben 10": ["เบ็นเท็น"] } },
+        game: { title: "🎮 เกมส์", subs: { "ROV": ["นาครอส", "ยอร์น", "อลิซ"] } },
+        sport: { title: "⚽ กีฬา", subs: { "กีฬาต่างๆ": ["แบดมินตัน", "วอลเลย์บอล"], "สโมสร": ["ลิเวอร์พูล", "เชลซี"], "นักฟุตบอล": ["เมสซี่", "โรนัลโด"] } }
+    };
+
+    let currentList = [];
+    let timerObj;
+    let timeLeft = 120;
+    let score = 0;
+    let isWaiting = false; // กันคำเด้งรัวๆ
 
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
+        document.body.style.background = "var(--dark)";
     }
 
-    function nextItem(list, displayId) {
-        const res = list[Math.floor(Math.random() * list.length)];
-        document.getElementById(displayId).innerText = res;
+    function showSubMenu(mainKey) {
+        const category = database[mainKey];
+        document.getElementById('sub-menu-title').innerText = category.title;
+        const container = document.getElementById('sub-menu-container');
+        container.innerHTML = '';
+        for (let sub in category.subs) {
+            const btn = document.createElement('button');
+            btn.className = 'sub-btn';
+            btn.innerText = sub;
+            btn.onclick = () => {
+                currentList = [...category.subs[sub]];
+                showScreen('permission-screen');
+            };
+            container.appendChild(btn);
+        }
+        showScreen('sub-menu');
+    }
+
+    // ขออนุญาต Sensor
+    function requestPermission() {
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+            DeviceOrientationEvent.requestPermission()
+                .then(permissionState => {
+                    if (permissionState === 'granted') {
+                        startTheGame();
+                    }
+                }).catch(console.error);
+        } else {
+            startTheGame(); // สำหรับ browser ที่ไม่ต้องขอ
+        }
+    }
+
+    function startTheGame() {
+        score = 0;
+        timeLeft = 120;
+        document.getElementById('score-now').innerText = "คะแนน: 0";
+        showScreen('game-screen');
+        nextWord();
+        
+        window.addEventListener('deviceorientation', handleMotion);
+
+        clearInterval(timerObj);
+        timerObj = setInterval(() => {
+            timeLeft--;
+            document.getElementById('timer').innerText = timeLeft;
+            if (timeLeft <= 0) endGame();
+        }, 1000);
+    }
+
+    function handleMotion(event) {
+        if (isWaiting) return;
+
+        let beta = event.beta; // ความเอียงหน้า-หลัง (-180 ถึง 180)
+
+        // คว่ำจอ (คะแนน) - ประมาณ 45 ถึง 90 องศา
+        if (beta > 60 && beta < 120) {
+            processAction('correct');
+        } 
+        // หงายจอ (ข้าม) - ประมาณ -45 ถึง -90 องศา
+        else if (beta < -40 && beta > -120) {
+            processAction('skip');
+        }
+    }
+
+    function processAction(type) {
+        isWaiting = true;
+        if (type === 'correct') {
+            score++;
+            document.getElementById('score-now').innerText = "คะแนน: " + score;
+            document.body.classList.add('correct-bg');
+            document.getElementById('word-display').innerText = "ถูกต้อง! ✔️";
+        } else {
+            document.body.classList.add('skip-bg');
+            document.getElementById('word-display').innerText = "ข้าม... ⏭️";
+        }
+
+        setTimeout(() => {
+            document.body.classList.remove('correct-bg', 'skip-bg');
+            nextWord();
+            isWaiting = false;
+        }, 1000); // รอ 1 วินาทีเพื่อให้คนถือกลับมาท่าตั้งตรง
+    }
+
+    function nextWord() {
+        if (currentList.length === 0) {
+            endGame();
+            return;
+        }
+        const idx = Math.floor(Math.random() * currentList.length);
+        const word = currentList.splice(idx, 1);
+        document.getElementById('word-display').innerText = word;
+    }
+
+    function endGame() {
+        clearInterval(timerObj);
+        window.removeEventListener('deviceorientation', handleMotion);
+        document.getElementById('final-score').innerText = score;
+        showScreen('summary-screen');
+    }
+
+    function exitGame() {
+        if(confirm("ต้องการจบเกมก่อนเวลาใช่ไหม?")) endGame();
     }
 </script>
 
