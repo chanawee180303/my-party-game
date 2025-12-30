@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Party Game Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #6c5ce7; --secondary: #00b894; --bg: #dfe6e9; }
+        body { font-family: 'Prompt', sans-serif; background-color: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; color: #2d3436; overflow: hidden; }
+        .container { width: 90%; max-width: 500px; background: white; padding: 30px; border-radius: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; min-height: 400px; display: flex; flex-direction: column; justify-content: center; }
+        .screen { display: none; }
+        .active { display: block; }
+        h1 { font-size: 2.2rem; color: var(--primary); }
+        .menu-btn { background: var(--primary); color: white; border: none; padding: 20px; margin: 10px 0; width: 100%; font-size: 1.4rem; border-radius: 15px; cursor: pointer; }
+        .menu-btn.topic { background: var(--secondary); }
+        .display-box { font-size: 2.5rem; font-weight: bold; margin: 30px 0; min-height: 120px; display: flex; align-items: center; justify-content: center; color: #2d3436; }
+        .action-btn { background: var(--primary); color: white; border: none; padding: 15px 30px; font-size: 1.2rem; border-radius: 50px; width: 100%; cursor: pointer; }
+        .back-btn { background: none; border: 1px solid #b2bec3; color: #636e72; margin-top: 20px; padding: 8px 15px; border-radius: 50px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="menu-screen" class="screen active">
+        <h1>เกมปาร์ตี้ 🎮</h1>
+        <button class="menu-btn" onclick="showScreen('word-game')">📢 ทายคำศัพท์</button>
+        <button class="menu-btn topic" onclick="showScreen('topic-game')">💬 สุ่มหัวข้อคุย</button>
+    </div>
+
+    <div id="word-game" class="screen">
+        <h2>ทายคำศัพท์</h2>
+        <div class="display-box" id="word-display">กดเริ่ม...</div>
+        <button class="action-btn" onclick="nextItem(words, 'word-display')">สุ่มคำใหม่</button>
+        <button class="back-btn" onclick="showScreen('menu-screen')">กลับหน้าหลัก</button>
+    </div>
+
+    <div id="topic-game" class="screen">
+        <h2>หัวข้อสนทนา</h2>
+        <div class="display-box" style="font-size: 1.5rem;" id="topic-display">กดเริ่ม...</div>
+        <button class="action-btn" style="background: var(--secondary);" onclick="nextItem(topics, 'topic-display')">สุ่มหัวข้อใหม่</button>
+        <button class="back-btn" onclick="showScreen('menu-screen')">กลับหน้าหลัก</button>
+    </div>
+</div>
+
+<script>
+    const words = ["รถไฟฟ้า", "พริกแกง", "ไดโนเสาร์", "สไปเดอร์แมน", "หมูกระทะ", "น้ำตก", "ลิซ่า", "TikTok", "ทุเรียน", "ยาสีฟัน"];
+    const topics = ["ถ้าถูกหวย 100 ล้านจะซื้ออะไร?", "ความทรงจำตอนเด็กที่ขำที่สุด?", "อยากไปเที่ยวประเทศไหนมากที่สุด?", "ของกินที่เกลียดที่สุด?", "ถ้าสลับร่างกับเพื่อนได้ 1 วันจะเลือกใคร?"];
+
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function nextItem(list, displayId) {
+        const res = list[Math.floor(Math.random() * list.length)];
+        document.getElementById(displayId).innerText = res;
+    }
+</script>
+
+</body>
+</html>
