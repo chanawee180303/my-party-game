@@ -3,33 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Party Game Pro - Motion Edition</title>
+    <title>Party Game - iPad Landscape Fixed</title>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #ff7f50; --secondary: #2ed573; --dark: #2f3542; --light: #ffffff; --blue: #54a0ff; --danger: #ff4757; }
+        :root { --primary: #ff7f50; --secondary: #2ed573; --dark: #2f3542; --light: #ffffff; --blue: #54a0ff; }
         body { font-family: 'Prompt', sans-serif; background: var(--dark); margin: 0; color: var(--light); overflow: hidden; transition: background 0.3s; }
         .container { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
         .screen { display: none; width: 100%; text-align: center; }
         .active { display: flex; flex-direction: column; align-items: center; }
 
         /* ปุ่มหลัก */
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 700px; }
-        .main-btn { background: var(--light); color: var(--dark); border: none; padding: 20px; border-radius: 15px; font-size: 1.2rem; font-weight: bold; box-shadow: 0 4px 0px #bdc3c7; cursor: pointer; }
-        .sub-btn { background: var(--blue); color: white; border: none; padding: 20px; border-radius: 15px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 0px #2e86de; cursor: pointer; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; width: 100%; max-width: 900px; }
+        .main-btn { background: var(--light); color: var(--dark); border: none; padding: 15px; border-radius: 15px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 0px #bdc3c7; cursor: pointer; }
+        .sub-btn { background: var(--blue); color: white; border: none; padding: 15px; border-radius: 15px; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 0px #2e86de; cursor: pointer; }
 
         /* หน้าเกม */
-        #timer { font-size: 4rem; font-weight: bold; color: var(--secondary); margin-bottom: 5px; }
-        #word-display { font-size: 7rem; font-weight: bold; margin: 20px 0; min-height: 250px; display: flex; align-items: center; justify-content: center; line-height: 1.1; width: 95%; }
-        #score-now { font-size: 1.5rem; background: rgba(0,0,0,0.3); padding: 5px 20px; border-radius: 20px; }
+        #timer { font-size: 3.5rem; font-weight: bold; color: var(--secondary); margin-top: 10px; }
+        #word-display { font-size: 6rem; font-weight: bold; margin: 15px 0; min-height: 200px; display: flex; align-items: center; justify-content: center; line-height: 1; width: 95%; }
+        #score-now { font-size: 1.5rem; background: rgba(0,0,0,0.3); padding: 5px 25px; border-radius: 20px; }
 
-        /* หน้าสรุปคะแนน */
-        .result-card { background: white; color: var(--dark); padding: 40px; border-radius: 30px; width: 80%; max-width: 400px; }
-        .score-big { font-size: 6rem; color: var(--primary); font-weight: bold; margin: 10px 0; }
-        
-        .action-btn { background: var(--secondary); color: white; border: none; padding: 20px 40px; border-radius: 50px; font-size: 1.5rem; font-weight: bold; width: 100%; cursor: pointer; }
-        .back-btn { background: none; border: 2px solid #747d8c; color: #747d8c; padding: 10px 30px; border-radius: 50px; font-size: 1rem; cursor: pointer; margin-top: 20px; }
+        /* ผลลัพธ์ */
+        .score-big { font-size: 7rem; color: var(--primary); font-weight: bold; }
+        .action-btn { background: var(--secondary); color: white; border: none; padding: 20px 50px; border-radius: 50px; font-size: 1.5rem; font-weight: bold; cursor: pointer; }
+        .back-btn { background: none; border: 2px solid #747d8c; color: #747d8c; padding: 10px 30px; border-radius: 50px; font-size: 1rem; cursor: pointer; margin-top: 15px; }
 
-        /* สำหรับ Motion Feedback */
+        /* สีตอนแจ้งเตือน */
         .correct-bg { background: #2ed573 !important; }
         .skip-bg { background: #ff4757 !important; }
     </style>
@@ -39,18 +37,8 @@
 <div class="container">
     <div id="main-menu" class="screen active">
         <h1>เลือกหมวดหมู่ 🎮</h1>
-        <div class="grid">
-            <button class="main-btn" onclick="showSubMenu('food')">🍱 อาหาร</button>
-            <button class="main-btn" onclick="showSubMenu('general')">🎓 ความรู้ทั่วไป</button>
-            <button class="main-btn" onclick="showSubMenu('tv')">📺 รายการทีวี</button>
-            <button class="main-btn" onclick="showSubMenu('movie')">🎬 ภาพยนตร์</button>
-            <button class="main-btn" onclick="showSubMenu('music')">🎵 เพลง</button>
-            <button class="main-btn" onclick="showSubMenu('celeb')">🌟 คนดัง</button>
-            <button class="main-btn" onclick="showSubMenu('world')">🌎 รอบโลก</button>
-            <button class="main-btn" onclick="showSubMenu('cartoon')">🦄 การ์ตูน</button>
-            <button class="main-btn" onclick="showSubMenu('game')">🎮 เกมส์</button>
-            <button class="main-btn" onclick="showSubMenu('sport')">⚽ กีฬา</button>
-        </div>
+        <div class="grid" id="main-grid">
+            </div>
     </div>
 
     <div id="sub-menu" class="screen">
@@ -61,8 +49,7 @@
 
     <div id="permission-screen" class="screen">
         <h1>พร้อมเล่นหรือยัง? 📱</h1>
-        <p>ถือ iPad ให้ขนานกับหน้าผาก แล้วหันจอไปทางเพื่อน</p>
-        <p style="font-size: 0.9rem; color: #ced4da;">(ต้องกดอนุญาตเพื่อใช้การเอียงหน้าจอเปลี่ยนคำ)</p>
+        <p>หันหน้าจอไปทางเพื่อน (แนวนอนหรือแนวตั้งก็ได้)</p>
         <button class="action-btn" onclick="requestPermission()">เริ่มเล่นเลย!</button>
         <button class="back-btn" onclick="showScreen('main-menu')">ยกเลิก</button>
     </div>
@@ -71,40 +58,44 @@
         <div id="score-now">คะแนน: 0</div>
         <div id="timer">120</div>
         <div id="word-display">เตรียมตัว!</div>
-        <p>คว่ำจอลง = ถูก | หงายจอขึ้น = ข้าม</p>
-        <button class="back-btn" onclick="exitGame()">🔙 จบเกมก่อนเวลา</button>
+        <p style="opacity: 0.6;">คว่ำจอลง = ถูก | หงายจอขึ้น = ข้าม</p>
     </div>
 
     <div id="summary-screen" class="screen">
-        <div class="result-card">
+        <div style="background: white; color: #333; padding: 30px; border-radius: 30px; width: 80%; max-width: 400px;">
             <h2>สรุปคะแนน 🎉</h2>
             <div class="score-big" id="final-score">0</div>
-            <p>ตอบถูกทั้งหมด</p>
-            <button class="action-btn" onclick="showScreen('main-menu')">เล่นใหม่อีกครั้ง</button>
+            <button class="action-btn" onclick="showScreen('main-menu')">เล่นใหม่</button>
         </div>
     </div>
 </div>
 
 <script>
-    // --- DATABASE (เหมือนเดิม แต่คุณเพิ่มคำได้ตามใจชอบ) ---
+    // ข้อมูลคำศัพท์ (คุณสามารถเพิ่มต่อได้ที่นี่)
     const database = {
-        food: { title: "🍱 อาหาร", subs: { "อาหารไทย": ["ผัดไทย", "ต้มยำกุ้ง", "แกงเขียวหวาน"], "อาหารอีสาน": ["ส้มตำ", "ซุปหน่อไม้", "ลาบหมู"], "ผักผลไม้": ["ทุเรียน", "มังคุด", "ผักบุ้ง"] } },
-        general: { title: "🎓 ความรู้ทั่วไป", subs: { "จังหวัด": ["เชียงใหม่", "ภูเก็ต", "ขอนแก่น"], "ชื่อสัตว์ แมลง": ["ตั๊กแตน", "แมลงปอ", "สิงโต"], "อาชีพ": ["วิศวกร", "พยาบาล", "นักบิน"], "สัตว์ในตำนาน": ["พญานาค", "พญาครุฑ"], "อวัยวะ": ["ตับ", "ไต", "ไส้ติ่ง"] } },
-        tv: { title: "📺 ทีวี", subs: { "Stranger Things": ["อีเลเว่น", "ดัสติน"], "นักมวยปล้ำ": ["จอห์น ซีน่า", "เดอะ ร็อก"] } },
-        movie: { title: "🎬 หนัง", subs: { "หนังต่างประเทศ": ["Avatar", "Titanic"], "Marvel": ["ไอรอนแมน", "ธานอส"], "หนังไทย": ["พี่มาก", "ฉลาดเกมส์โกง"] } },
-        music: { title: "🎵 เพลง", subs: { "ศิลปิน": ["Blackpink", "Bodyslam"], "เพลงไทย": ["วัดปะหล่ะ", "สองใจ"], "เพลงสากล": ["Stay", "Perfect"], "Kamikaze": ["โฟร์-มด", "หวาย"] } },
-        celeb: { title: "🌟 คนดัง", subs: { "ตัวละครหนัง": ["แจ็ค สแปร์โรว์", "โจ๊กเกอร์"], "ตัวละครการ์ตูน": ["โดราเอมอน", "ชินจัง"] } },
-        world: { title: "🌎 รอบโลก", subs: { "เมืองท่องเที่ยว": ["โตเกียว", "ปารีส"], "สถานที่เที่ยวไทย": ["เขาใหญ่", "เกาะพีพี"], "เมืองหลวง": ["ลอนดอน", "โซล"], "ประเทศ": ["ญี่ปุ่น", "บราซิล"], "ภาษาอีสาน": ["เบิ่ง", "แซ่บนัว"] } },
-        cartoon: { title: "🦄 การ์ตูน", subs: { "Marvel": ["Spider-Man"], "DC": ["Batman"], "Attack on Titans": ["เอเรน"], "Naruto": ["นารูโตะ"], "Demons Slayer": ["ทันจิโร่"], "Ben 10": ["เบ็นเท็น"] } },
+        food: { title: "🍱 อาหาร", subs: { "อาหารไทย": ["ผัดไทย", "ต้มยำกุ้ง", "แกงเขียวหวาน"], "อาหารอีสาน": ["ส้มตำ", "ลาบหมู", "ซุปหน่อไม้"], "ผักผลไม้": ["ทุเรียน", "มังคุด", "คะน้า"] } },
+        general: { title: "🎓 ความรู้ทั่วไป", subs: { "จังหวัด": ["กรุงเทพ", "เชียงใหม่", "ภูเก็ต"], "อาชีพ": ["หมอ", "พยาบาล", "นักบิน"], "อวัยวะ": ["หัวใจ", "ปอด", "ตับ"] } },
+        movie: { title: "🎬 ภาพยนตร์", subs: { "Marvel": ["ไอรอนแมน", "ธานอส", "กัปตัน"], "หนังไทย": ["พี่มาก", "ฉลาดเกมส์โกง"] } },
+        cartoon: { title: "🦄 การ์ตูน", subs: { "Naruto": ["นารูโตะ", "ซาสึเกะ"], "One Piece": ["ลูฟี่", "โซโร"] } },
         game: { title: "🎮 เกมส์", subs: { "ROV": ["นาครอส", "ยอร์น", "อลิซ"] } },
-        sport: { title: "⚽ กีฬา", subs: { "กีฬาต่างๆ": ["แบดมินตัน", "วอลเลย์บอล"], "สโมสร": ["ลิเวอร์พูล", "เชลซี"], "นักฟุตบอล": ["เมสซี่", "โรนัลโด"] } }
+        sport: { title: "⚽ กีฬา", subs: { "ฟุตบอล": ["เมสซี่", "โรนัลโด"], "ทีมบอล": ["ลิเวอร์พูล", "แมนยู"] } }
     };
 
     let currentList = [];
     let timerObj;
     let timeLeft = 120;
     let score = 0;
-    let isWaiting = false; // กันคำเด้งรัวๆ
+    let isWaiting = false;
+
+    // สร้างปุ่มหน้าแรก
+    const mainGrid = document.getElementById('main-grid');
+    for (let key in database) {
+        const btn = document.createElement('button');
+        btn.className = 'main-btn';
+        btn.innerText = database[key].title;
+        btn.onclick = () => showSubMenu(key);
+        mainGrid.appendChild(btn);
+    }
 
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -130,29 +121,20 @@
         showScreen('sub-menu');
     }
 
-    // ขออนุญาต Sensor
     function requestPermission() {
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-            DeviceOrientationEvent.requestPermission()
-                .then(permissionState => {
-                    if (permissionState === 'granted') {
-                        startTheGame();
-                    }
-                }).catch(console.error);
-        } else {
-            startTheGame(); // สำหรับ browser ที่ไม่ต้องขอ
-        }
+            DeviceOrientationEvent.requestPermission().then(state => {
+                if (state === 'granted') startTheGame();
+            }).catch(console.error);
+        } else { startTheGame(); }
     }
 
     function startTheGame() {
-        score = 0;
-        timeLeft = 120;
+        score = 0; timeLeft = 120;
         document.getElementById('score-now').innerText = "คะแนน: 0";
         showScreen('game-screen');
         nextWord();
-        
         window.addEventListener('deviceorientation', handleMotion);
-
         clearInterval(timerObj);
         timerObj = setInterval(() => {
             timeLeft--;
@@ -161,17 +143,24 @@
         }, 1000);
     }
 
+    // ฟังก์ชันตรวจจับความเอียงแบบปรับตามแนวเครื่อง (FIXED)
     function handleMotion(event) {
         if (isWaiting) return;
 
-        let beta = event.beta; // ความเอียงหน้า-หลัง (-180 ถึง 180)
+        let tiltValue = 0;
+        const isLandscape = window.innerWidth > window.innerHeight;
 
-        // คว่ำจอ (คะแนน) - ประมาณ 45 ถึง 90 องศา
-        if (beta > 60 && beta < 120) {
+        // แยกแกนตามการถือ
+        if (isLandscape) {
+            tiltValue = event.gamma; // แนวนอนใช้ Gamma
+        } else {
+            tiltValue = event.beta;  // แนวตั้งใช้ Beta
+        }
+
+        // โลจิก Correct/Skip
+        if (tiltValue > 55) { // เอียงลง
             processAction('correct');
-        } 
-        // หงายจอ (ข้าม) - ประมาณ -45 ถึง -90 องศา
-        else if (beta < -40 && beta > -120) {
+        } else if (tiltValue < -55) { // เอียงขึ้น
             processAction('skip');
         }
     }
@@ -182,24 +171,21 @@
             score++;
             document.getElementById('score-now').innerText = "คะแนน: " + score;
             document.body.classList.add('correct-bg');
-            document.getElementById('word-display').innerText = "ถูกต้อง! ✔️";
+            document.getElementById('word-display').innerText = "✔️ ถูกต้อง";
         } else {
             document.body.classList.add('skip-bg');
-            document.getElementById('word-display').innerText = "ข้าม... ⏭️";
+            document.getElementById('word-display').innerText = "⏭️ ข้าม";
         }
 
         setTimeout(() => {
             document.body.classList.remove('correct-bg', 'skip-bg');
             nextWord();
             isWaiting = false;
-        }, 1000); // รอ 1 วินาทีเพื่อให้คนถือกลับมาท่าตั้งตรง
+        }, 1200); // หน่วงเวลานิดนึงให้ดึงเครื่องกลับท่าเดิม
     }
 
     function nextWord() {
-        if (currentList.length === 0) {
-            endGame();
-            return;
-        }
+        if (currentList.length === 0) { endGame(); return; }
         const idx = Math.floor(Math.random() * currentList.length);
         const word = currentList.splice(idx, 1);
         document.getElementById('word-display').innerText = word;
@@ -211,11 +197,6 @@
         document.getElementById('final-score').innerText = score;
         showScreen('summary-screen');
     }
-
-    function exitGame() {
-        if(confirm("ต้องการจบเกมก่อนเวลาใช่ไหม?")) endGame();
-    }
 </script>
-
 </body>
 </html>
